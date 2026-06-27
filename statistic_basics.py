@@ -15,7 +15,7 @@ index = 0
 
 n = int(input("How many samples should there be: "))
 a=0
-b=100
+b= int(input("Change the upper limit of the 'random' distribution of numbers: ")
 while runs <= (n-1):
     number = random.randrange(a,b,1)
     nums.append(number)
