@@ -38,3 +38,4 @@ cursor = matplotlib.widgets.Cursor(ax, useblit=True, horizOn=True, vertOn=True, 
 fig.canvas
 plt.plot(x,y)
 plt.show()
+#This is an example of the Central Limit Theorem, as n get large turns to a normal distributions
