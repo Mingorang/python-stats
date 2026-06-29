@@ -28,6 +28,13 @@ def reasonable_function(expression):
 def main():
        #Initialising variables
         print("Approximating integrals with rectangles")
+     need_for_limit = bool(input("Will you need a limit (True if the input function will approach infinity )"))
+        if need_for_limit == True:
+                ignore_limit = float(input("What cutoff value should be used for"))
+                #Input code for this:
+        elif need_for_limit == False:
+                #No limit needed, run as usual
+                ignore_limit = None
         expr = input("Integral as a function of x: ")
         a = float(input("lower limit: "))
         b= float(input("upper limit: "))
@@ -80,3 +87,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+# Need to change calculation methods for inverse trigonometric values,
+#  or functions that approach infinity, before approximating integral:
+# "scan" the values, create a normal distribution (ignore values greater than a set variable, ignore_limit), 
+# if values fall out a cutoff range, ignore the value
+# Example, tan(x) is undefined as 0.5*pi, so if limit is 0 to pi, 
+#  scan to some x value close to 0.5*pi, when f(x) 
