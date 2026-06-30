@@ -23,8 +23,28 @@ def reasonable_function(expression):
     "log" :np.log10,
     }
     def f(x):
-        return eval(expression, {**allowed}, {"x": x})
+        return eval(expression, {**allowed}, {"x": x})    
     return f
+#Sub intervals
+def find_valid_intervals(x,mask):
+    valid = ~mask
+    intervals = []
+    in_run = False
+
+    for i, v in enumerate(valid):
+            if v and not i:
+                    start = x[i]
+                    in_run = True
+            elif not v and in_run:
+                    end = x[i-1]
+                    intervals.append((start, end))
+    if in_run:
+        intervals.append((start,x[-1]))
+            
+    return intervals
+
+
+
 def main():
        #Initialising variables
         print("Approximating integrals with rectangles")
@@ -35,17 +55,22 @@ def main():
         elif need_for_limit == False:
                 #No limit needed, run as usual
                 ignore_limit = None
+
+
         #Getting IQR for ignore limit
-        finite_values = y[np.isfinite(y)]
+        finite_values = f(x)[np.isfinite(f(x))]
         Q1,Q3 = np.percentile(finite_values,25), np.percentiles(finite_values, 75)
         IQR = Q3-Q1
         alpha=95
         multiplier = 1 /(1-(alpha/100))
         upper_fence = Q3 +(multiplier*IQR)
         lower_fence = Q1 - (multiplier*IQR)
-        outlier_test = (y > upper_fence) | (y<lower_fence) | ~np.isfinite(y)
+        outlier_mask = (f(x) > upper_fence) | (f(x)<lower_fence) | ~np.isfinite(f(x))
+        print(outlier_mask)
+
+
         
-        
+        #Initial variables
         expr = input("Integral as a function of x: ")
         a = float(input("lower limit: "))
         b= float(input("upper limit: "))
