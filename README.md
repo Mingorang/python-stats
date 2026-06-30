@@ -1,5 +1,5 @@
 # python-stats
- statistics for python to use for  more complex projects in the future
+ statistics for python to use for  more complex projects at some point
 
 Currently building python projects for data visulisation. I aim to update this repo with new projects every 2-3 days. 
  
