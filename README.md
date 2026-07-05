@@ -1,5 +1,5 @@
-# python-stats
- Statistics in python to use for complex projects at some point
+# python-demos
+ Statistics and mathematical models in python to use for complex projects at some point
 
 Currently building python projects for data visualisation. I aim to update this repo with new projects every 2-3 days. 
  
