@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.linalg import solve
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
@@ -6,8 +7,6 @@ from mpl_toolkits import mplot3d
 #Maybe use to solve large systems of simultaneous equations?
 
 
-import numpy as np
-from scipy.linalg import solve
 
 size = int(input("What is the size of the simultaneous equation? (2-4): "))
 
