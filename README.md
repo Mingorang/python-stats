@@ -7,11 +7,11 @@ Generating  k number of random samples and observing as k gets large, results ar
 
 Matrices multiplication (2x2), (3x3), (4x4), template is for solving systems of linear equations.
 
-**Numerical integration, version 1 takes a gives function of x, and integrates over a user given interval using a riemann sum(rectangles), Simpson's rule (quadratics), and the quad() function from a python module.** Version 2 has not yet been finished but it will deal with integrating over singularities, such as  $\` f(x) = \frac{1}{x-1}   \`$ when x=1, using appropriate approximation techniques.
+Numerical integration, version 1 takes a gives function of x, and integrates over a user given interval using a riemann sum(rectangles), Simpson's rule (quadratics), and the quad() function from a python module. Version 2 has not yet been finished but it will deal with integrating over singularities, such as  $\` f(x) = \frac{1}{x-1}   \`$ when x=1, using appropriate approximation techniques.
 
 
 ## Future projects
-ODE solver, solves 1<sup>st</sup> and 2<sup>nd</sup> order Differential equations using a module, and add a visual model of a solution to the ODE with __given initial conditions__. At some point, I will also cover **partial differential equations**.
+ODE solver, solves 1<sup>st</sup> and 2<sup>nd</sup> order Differential equations using a module, and add a visual model of a solution to the ODE with __given initial conditions__. At some point (maybe), I will also cover partial differential equations.
  
  
  
