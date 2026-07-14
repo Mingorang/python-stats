@@ -23,35 +23,11 @@ def reasonable_function(expression):
     "log" :np.log10,
     }
     def f(x):
-        return eval(expression, {**allowed}, {"x": x})    
+        return eval(expression, {**allowed}, {"x": x})
     return f
-#Sub intervals
-def find_valid_intervals(x,mask):
-    valid = ~mask
-    intervals = []
-    in_run = False
-
-    for i, v in enumerate(valid):
-            if v and not i:
-                    start = x[i]
-                    in_run = True
-            elif not v and in_run:
-                    end = x[i-1]
-                    intervals.append((start, end))
-    if in_run:
-        intervals.append((start,x[-1]))
-            
-    return intervals
-
-
-
 def main():
        #Initialising variables
-        print("Approximating integrals with rectangles")
-        
-
-        
-        #Initial variables
+        print("Approximating integrals with rectangles")    
         expr = input("Integral as a function of x: ")
         a = float(input("lower limit: "))
         b= float(input("upper limit: "))
@@ -70,7 +46,7 @@ def main():
         #Actual integral
         actual_area = quad(f,a,b)[0]
 
-        #calculating % error(s)
+        #calculating % error(s) and simpson function
         x = np.linspace(a,b,(int((b-a)/dx)))
         y = f(x)
         sim = simps(y,x)
@@ -94,19 +70,15 @@ def main():
         print(f"Riemann is {100-error_riemann} accurate,  Simpson's is {100-error_simpsons} accurate")
         if error_simpsons < error_riemann:
              print("Simpson's rule give a more accurate answer")
-        else:
+        elif error_riemann < error_simpsons:
              print("Riemann's is more accurate,")
+        else:
+             print("No value to compare to.")
         
         time.sleep(30)
         plt.draw()
-        plt.pause(100)
+        plt.pause(600)
 
 
 if __name__ == "__main__":
     main()
-# Need to change calculation methods for inverse trigonometric values,
-#  or functions that approach infinity, before approximating integral:
-# "scan" the values, create a normal distribution (ignore values greater than a set variable, ignore_limit), 
-# if values fall out a cutoff range, ignore the value
-# Example, tan(x) is undefined as 0.5*pi, so if limit is 0 to pi, 
-#  scan to some x value close to 0.5*pi, when f(x) 
