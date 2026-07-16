@@ -21,6 +21,7 @@ def reasonable_function(expression):
         "sinh": np.sinh,
         "cosh": np.cosh,
         "tanh": np.tanh,
+        "loge": np.log,
         "log": np.log10,
     }
     def f(x):
@@ -81,9 +82,11 @@ def main():
         b= float(input("upper limit: "))
         dx = float(input("width of rectangle: "))
         #larger alpha gives little to no divergent points
-        alpha = float(input("measure for finding singularities: (85<=alpha<100)"))
+        alpha = float(input("measure for finding singularities: (85<=alpha<100): "))
         if alpha<85 or alpha>=100:
             sys.exit("You know this value isnt allowed.")
+        else:
+            pass
         #Riemann sum
         f = reasonable_function(expr)
         x_rect, y_rect = sample_function(f,a,b,dx)
