@@ -15,7 +15,7 @@ index = 0
 
 n = int(input("How many samples should there be: "))
 a=0
-b= int(input("Change the upper limit of the 'random' distribution of numbers: ")
+b= int(input("Change the upper limit of the 'random' distribution of numbers: "))
 while runs <= (n-1):
     number = random.randrange(a,b,1)
     nums.append(number)
@@ -38,4 +38,4 @@ cursor = matplotlib.widgets.Cursor(ax, useblit=True, horizOn=True, vertOn=True, 
 fig.canvas
 plt.plot(x,y)
 plt.show()
-#This is an example of the Central Limit Theorem, as n get large turns to a normal distributions
+#This is an example of the Central Limit Theorem, as n get large  the random discrete distribution approximates to a normal distribution.
