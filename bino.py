@@ -7,8 +7,13 @@ import numpy as np
 n = int(input("Number of trials: "))
 p = float(input("Probability of success (0-1): "))
 x = int(input("How many success happened: "))
-bino_pdf = (factorial(n) / ((factorial(x)*factorial(n-x)))) * (p**x) * ((1-p)**(n-x))
-print((factorial(n) / ((factorial(x)*factorial(n-x)))))
-print(bino_pdf)
 
-for i in range(0,x):
+def bino_pdf(x)
+    bino_pdf = (factorial(n) / ((factorial(x)*factorial(n-x)))) * (p**x) * ((1-p)**(n-x))
+
+i=0
+bino_cdf = 0
+while i < (n+1):
+    bino_cdf = bino_cdf + bino_pdf
+    i+=1
+print(bino_cdf)
