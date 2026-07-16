@@ -4,7 +4,7 @@ import time
 from scipy.integrate import simpson as simps
 from scipy.integrate import quad
 
-
+alpha = 27
 def reasonable_function(expression):
     allowed = {
     "exp" : np.exp,
@@ -25,6 +25,37 @@ def reasonable_function(expression):
     def f(x):
         return eval(expression, {**allowed}, {"x": x})
     return f
+def sample_function(f, a, b, dx):
+     x = np.arange(a, b + dx, dx)
+     with np.errstate(divide='ignore', invalid='ignore', over='ignore'):
+        y = f(x)
+     valid = np.isfinite(y)
+     x = x[valid]
+     y = y[valid]
+     return x,y
+
+def detect_singularities(x, y, alpha):
+    lower = np.percentile(y, 100 - alpha)
+    upper = np.percentile(y, alpha)
+    outliers = (y < lower) | (y > upper)
+    gradient = np.abs(np.diff(y))
+    gradient_limit = np.percentile(gradient, alpha)
+    regions = []
+    inside = False
+    for i in range(len(gradient)):
+        if outliers[i] and gradient[i] > gradient_limit:
+            if not inside:
+                start = i
+                inside = True
+        else:
+            if inside:
+                end = i
+                regions.append((x[start], x[end]))
+                inside = False
+    if inside:
+        regions.append((x[start], x[-1]))
+
+    return regions
 def main():
        #Initialising variables
         print("Approximating integrals with rectangles")    
@@ -35,20 +66,17 @@ def main():
 
         #Riemann sum
         f = reasonable_function(expr)
-        x_rect = np.arange(a,b,dx)
-        y_rect = f(x_rect)
+        x_rect, y_rect = sample_function(f,a,b,dx)
         area = np.sum(y_rect * dx)
         
         #actual function
-        x_plot = np.linspace(a,b, int((b-a)/dx))
-        y_plot = f(x_plot)
+        x_plot,y_plot = sample_function(f,a,b,dx)
 
         #Actual integral
         actual_area = quad(f,a,b)[0]
 
         #calculating % error(s) and simpson function
-        x = np.linspace(a,b,(int((b-a)/dx)))
-        y = f(x)
+        x, y = sample_function(f,a,b,dx)
         sim = simps(y,x)
         error = 100*(abs(sim-area)/sim)
         error_simpsons = 100*((abs(sim-actual_area))/actual_area)
@@ -75,7 +103,7 @@ def main():
         else:
              print("No value to compare to.")
         
-        time.sleep(30)
+        time.sleep(3)
         plt.draw()
         plt.pause(600)
 
