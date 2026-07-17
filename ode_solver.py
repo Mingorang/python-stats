@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from scipy.integrate import solve_ivp
-
+#Automated y-axis scale
 def lin_log_auto_scale(y_data_list, threshold=100):
  
     if not isinstance(y_data_list, list):
@@ -42,11 +42,11 @@ def lin_log_auto_scale(y_data_list, threshold=100):
 #        else:
 #            plt.yscale('linear')
 #
-
+#User inputs
 a = int(input("Lower limit of x/t: "))
 b = int(input("Upper limit of x/t: "))
 choice = input("Simple ODE or coupled ODE? (1/2): ")
-
+#Single ODE option
 if choice == '1':
     def dydx(x, y):
         return x + y
@@ -68,7 +68,7 @@ if choice == '1':
     plt.ylabel('$f(x)$')
     plt.xlabel('$x$')
     plt.show()
-
+#Coupled ode option
 elif choice == '2':
     def dS_dt(t, S):
         x, y = S
@@ -89,12 +89,11 @@ elif choice == '2':
         odeintsolution_coupled = odeint(dS_dt, y0=S0, t=t, tfirst=True)
         x_sol = odeintsolution_coupled.T[0] 
         y_sol = odeintsolution_coupled.T[1]
-
+#plots
     plt.plot(t, x_sol, label="$x(t)$")
     plt.plot(t, y_sol, label="$y(t)$")
     
     lin_log_auto_scale([x_sol, y_sol], threshold=100)
-    
     plt.legend()
     plt.title("Coupled First-Order ODEs")
     plt.xlabel("t")
