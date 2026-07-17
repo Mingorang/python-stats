@@ -1,14 +1,12 @@
+#imports
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
 
-#Maybe use to solve large systems of simultaneous equations?
-
-
 import numpy as np
 from scipy.linalg import solve
-
+#Determining matrix columns and rows
 size = int(input("What is the size of the simultaneous equation? (2-4): "))
 print("")
 if size == 2:
@@ -42,7 +40,7 @@ for k in range(size):
 b = np.array(b)
 #Solution using scipy, calculating inverse of A can introduce errors especially when using floats as coefficients
 solution = solve(A,b)
-
+#Outputting solutions
 if size ==2:
     print(f"X = {solution[0]}")
     print(f"Y = {solution[1]}")
