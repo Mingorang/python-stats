@@ -5,7 +5,8 @@ from scipy.integrate import simpson as simps
 from scipy.integrate import quad
 import sys
 
-
+#Define a reasonable function to be used in the integral definition, so functions can only be defined with the following expressions 
+#this list is not exhaustive and the integral still works despite operands not being included
 def reasonable_function(expression):
     allowed = {
         "exp": np.exp,
@@ -27,6 +28,7 @@ def reasonable_function(expression):
     def f(x):
         return eval(expression, {**allowed}, {"x": x})
     return f
+#This function is used to create a sample field, this sample only takes finite values, so (1/0) would not get here.    
 def sample_function(f, a, b, dx):
 
     x = np.arange(a, b + dx, dx)
@@ -41,7 +43,7 @@ def sample_function(f, a, b, dx):
 
     return x, y
 
-
+#The previous function relates to this one; we take percentiles and use a user-defined variable called alpha to 'prune' values considered to be too large or divergent, avoiding ZeroDivision errors and getting a numerical value after integration.
 def detect_singularities(x, y, alpha):
     lower = np.percentile(y, 100 - alpha)
     upper = np.percentile(y, alpha)
@@ -63,6 +65,7 @@ def detect_singularities(x, y, alpha):
     if inside:
         regions.append((x[start], x[-1]))
     return regions
+#Splits the integral and ignores values approaching (+/-)infinity. For example,  integrating 1/(x-5) from x-->10 will return nan, this can be reduced (with some error) to integrating from 0-->4.999 + 5.001-->10
 def split_intervals(a, b, regions, dx):
     intervals = []
     current = a
@@ -74,6 +77,7 @@ def split_intervals(a, b, regions, dx):
     if current < b:
         intervals.append((current, b))
     return intervals
+#Actual integration calculator
 def main():
        #Initialising variables
         print("Approximating integrals with rectangles")    
@@ -81,11 +85,11 @@ def main():
         a = float(input("lower limit: "))
         b= float(input("upper limit: "))
         dx = float(input("width of rectangle: "))
-        #larger alpha gives little to no divergent points
+        #larger alpha consideres less points as divergent
         alpha = float(input("measure for finding singularities: (85<=alpha<100)"))
         if alpha<85 or alpha>=100:
             sys.exit("You know this value isnt allowed.")
-        #Riemann sum
+        #Riemann sum (Method of integration using rectangles)
         f = reasonable_function(expr)
         x_rect, y_rect = sample_function(f,a,b,dx)
         area = np.sum(y_rect * dx)
@@ -98,10 +102,11 @@ def main():
         #actual function
         for left, right in intervals:
           x_plot, y_plot = sample_function(f, left, right, dx)
-             #Actual integral
+         
         actual_area = 0
         for left, right in intervals:
           actual_area += quad(f,left,right)[0]
+        #Simpsons (Method of integration w/ quadratics)
         sim = simps(y,x)
         error = 100*(abs(sim-area)/sim)
         error_simpsons = 100*((abs(sim-actual_area))/actual_area)
@@ -119,7 +124,7 @@ def main():
         plt.ylabel("f(x)")
         plt.legend()
         plt.grid(True)
-
+        #Analysis of whether Simpson's or Riemann's integration technique is more accurate.
         print(f"Simpson's rule gave an integral of {sim}, Riemann's sum from {a} to {b} gives {area.__round__(11)}, so the % error between the two approximations  is: {error}% ")
         print("")
         print(f"However, the actual integral is: {actual_area.__round__(9)}")
@@ -142,3 +147,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+#Maybe add simpson's approximation to plotting
