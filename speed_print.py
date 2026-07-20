@@ -28,3 +28,6 @@ for a in range(0,1000):
 print("")
 print(max(biggest))
 #Need to add matplot lib and difficult part will be introducing regressions, adding a list of reasonable methods similar to lines 9-25 of num_int.
+
+#Just plotting atm
+plt.xsc
