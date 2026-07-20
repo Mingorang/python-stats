@@ -143,7 +143,8 @@ def main():
         time.sleep(3)
         plt.draw()
         plt.pause(600)
-
+#Should add graphing option for simpson's method
+#Since file is numeric methods, should cover things other than integration.
 
 if __name__ == "__main__":
     main()
