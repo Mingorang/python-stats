@@ -84,7 +84,7 @@ def main():
         expr = input("Integral as a function of x: ")
         a = float(input("lower limit: "))
         b= float(input("upper limit: "))
-        dx = float(input("width of rectangle: "))
+        dx = float(abs(b-a)/1e4)
         #larger alpha consideres less points as divergent
         alpha = float(input("measure for finding singularities: (85<=alpha<100)"))
         if alpha<85 or alpha>=100:
