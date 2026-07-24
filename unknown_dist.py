@@ -18,6 +18,7 @@ print("Poisson ")
 print("Geometric ")
 print("Negative binomial")
 choice = int(input("Choose a dist: "))
+pdfcdf = bool(input("CDF or PDF (y/n)"))
  if choice == 1:
     n = int(input("Number of trials: "))
     p = float(input("Probability of success (0-1): "))
@@ -41,5 +42,6 @@ elif choice == 2:
     σ = float(input("Choose a value for standard deviation: "))
     μ = float(input("Choose a value for mean: "))     
     x = float(input("no. of successes / occurences: "))
-    a = float(input())
-
+    a = float(input("Lower limits"))
+    if pdfcdf == 'y'
+    pdf_norm = ((1/(σ*math.sqrt(2*math.pi))))
