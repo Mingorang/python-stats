@@ -18,6 +18,8 @@ print("Geometric ")
 print("Negative binomial")
 choice = int(input("Choose a dist: "))
 pdfcdf = bool(input("CDF or PDF (y/n): ").strip().lower().startswith('y'))
+
+#Very large if statement for processing the distributions, adding plots will be in the future (maybe)
 if choice == 1:
     n = int(input("Number of trials: "))
     p = float(input("Probability of success (0-1): "))
