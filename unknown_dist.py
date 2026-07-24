@@ -1,5 +1,4 @@
 import math
-#import matplotlib.pyplot as plt
 from math import factorial
 import sys
 
@@ -42,6 +41,12 @@ elif choice == 2:
     σ = float(input("Choose a value for standard deviation: "))
     μ = float(input("Choose a value for mean: "))     
     x = float(input("no. of successes / occurences: "))
-    a = float(input("Lower limits"))
+    cdf_norm = 0
     if pdfcdf == 'y'
-    pdf_norm = ((1/(σ*math.sqrt(2*math.pi))))
+    a = float(input("Lower limits"))
+    step = abs(x-a)/1000
+    while a <= x:
+    pdf_norm = ((1/(σ*math.sqrt(2*math.pi))))*((math.e)**(-0.5*((x-μ)/σ)**2))
+    cdf_norm += pdf_norm
+    print(f"Occurences (x): {x} | PDF: {pdf_norm:.20f} | Running CDF: {cdf_norm:.20f}")
+    a+= step
