@@ -17,7 +17,7 @@ print("Poisson ")
 print("Geometric ")
 print("Negative binomial")
 choice = int(input("Choose a dist: "))
-pdfcdf = bool(input("CDF or PDF (y/n): "))
+pdfcdf = bool(input("CDF or PDF (y/n): ").strip().lower().startswith('y'))
 if choice == 1:
     n = int(input("Number of trials: "))
     p = float(input("Probability of success (0-1): "))
@@ -44,9 +44,13 @@ elif choice == 2:
     cdf_norm = 0
     if pdfcdf == True:
         a = float(input("Lower limits"))
-        step = abs(x-a)/1000
-        while a <= x:
-            pdf_norm = ((1/(σ*math.sqrt(2*math.pi))))*((math.e)**(-0.5*((x-μ)/σ)**2))
-            cdf_norm += pdf_norm
+        steps = 1000
+        if x == a:
+            step = 0.0
+        else:
+            step = (x - a) / steps
+        while (a <= x and step > 0) or (a >= x and step < 0):
+            pdf_norm = (1 / (σ * math.sqrt(2 * math.pi))) * (math.e ** (-0.5 * ((a - μ) / σ) ** 2))
+            cdf_norm += pdf_norm * abs(step)
             print(f"Occurences (a): {a:.6f} | PDF: {pdf_norm:.20f} | Running CDF: {cdf_norm:.20f}")
-            a+= step
+            a += step
