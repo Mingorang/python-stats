@@ -17,10 +17,7 @@ print("Poisson ")
 print("Geometric ")
 print("Negative binomial")
 choice = int(input("Choose a dist: "))
-if choice == 2:
-    pdfcdf = bool(input("CDF or PDF (y/n): ").strip().lower().startswith('y'))
-else:
-    pass
+pdfcdf = bool(input("CDF or PDF (y/n): ").strip().lower().startswith('y'))
 #Very large if statement for processing the distributions, adding plots will be in the future (maybe)
 #Binomial - discrete
 if choice == 1:
@@ -73,12 +70,18 @@ elif choice == 3:
     x = int(input("no. of successes / occurences: "))
     pois_cdf = 0
     k=0
-    while k <= x:
-        pois_pdf = ((math.e)**(-1*λ))*(λ**k)*(1/(factorial(k)))
-        pois_cdf += pois_pdf
-        print(f"Successes (k): {k:>4.2g} | PDF: {pois_pdf:>12.6g} | Running CDF: {pois_cdf:12.6g}")
-        k += 1
-    print(f"\nFinal Cumulative Distribution Function (CDF): {pois_cdf:16.15g}")
+    if pdfcdf == True:
+        while k <= x:
+            pois_pdf = ((math.e)**(-1*λ))*(λ**k)*(1/(factorial(k)))
+            pois_cdf += pois_pdf
+            print(f"Successes (k): {k:>4.2g} | PDF: {pois_pdf:>12.6g} | Running CDF: {pois_cdf:12.6g}")
+            k += 1
+        print(f"\nFinal Cumulative Distribution Function (CDF): {pois_cdf:16.15g}")
+    else:
+        pois_pdf = ((math.e)**(-1*λ))*(λ**x)*(1/(factorial(x)))
+        print(f"X : {x} | PDF : {pois_pdf:10.9g}")
+
+
 #Geometric
 elif choice == 4:
     p = float(input("Choose a value for probability: "))
