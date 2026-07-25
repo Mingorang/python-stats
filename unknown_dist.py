@@ -19,6 +19,8 @@ print("Negative binomial")
 choice = int(input("Choose a dist: "))
 pdfcdf = bool(input("CDF or PDF (y/n): ").strip().lower().startswith('y'))
 #Very large if statement for processing the distributions, adding plots will be in the future (maybe)
+
+
 #Binomial - discrete
 if choice == 1:
     discrete_check = True
@@ -86,6 +88,10 @@ elif choice == 3:
 elif choice == 4:
     p = float(input("Choose a value for probability: "))
     x = float(input("no. of successes / occurences: "))  
+    if (p<0) or (p>1):
+        sys.exit("Error as probability cant be outside of 0 and 1.")
+    else:
+        pass
     geom_cdf = 0
     k = 1
     if pdfcdf == True:
@@ -98,3 +104,23 @@ elif choice == 4:
     else:
             geom_pdf = p*(1-p)**(x-1)
             print(f"PDF at point {x} is {geom_pdf:>17.15g}")
+
+#Negative Binomial
+elif choice == 5:
+    p = float(input("Choose a value for probability: "))
+    r = int(input("Testing up until the rth success: "))
+    x = int(input("no. of successes / occurences: "))  
+    negbi_cdf = 0
+    k = 1
+    if pdfcdf == True:
+        while k<= x:
+            negbi_pdf =  (factorial(k-1)/(factorial(r-1)*factorial(k-r)))*(p**r)*(1-p)**(k-r)
+            negbi_cdf += negbi_pdf
+            print(f"Successes: ({k}) | PDF: {negbi_pdf:>12.6g} | Running CDF: {negbi_cdf:>12.6g}")
+            k+=1
+        print(f"Final CDF is:  {negbi_cdf:>24.22g}")
+    else:
+            negbi_pdf =  (factorial(x-1)/(factorial(r-1)*factorial(x-r)))*(p**r)*(1-p)**(x-r)
+            print(f"PDF at point {x} is {negbi_pdf:>17.15g}")
+
+
