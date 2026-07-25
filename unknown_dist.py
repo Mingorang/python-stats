@@ -68,6 +68,7 @@ elif choice == 2:
             print(f"A value of {x} in this distribution has a PDF of {pdf_norm:>18.15f}")
 #Poisson - discrete
 elif choice == 3:
+    #Maybe use the gamma function for calculating factorials with decimals, but i should learn how to write functions soon
     λ = int(input("Value for poisson paramter: "))
     x = int(input("no. of successes / occurences: "))
     pois_cdf = 0
@@ -78,3 +79,8 @@ elif choice == 3:
         print(f"Successes (k): {k:>4.2g} | PDF: {pois_pdf:>12.6g} | Running CDF: {pois_cdf:12.6g}")
         k += 1
     print(f"\nFinal Cumulative Distribution Function (CDF): {pois_cdf:16.15g}")
+#Geometric
+elif choice == 4:
+    p = float(input("Choose a value for probability: "))
+    x = float(input("no. of successes / occurences: "))  
+    geom_cdf = 0
