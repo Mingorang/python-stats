@@ -57,7 +57,7 @@ elif choice == 2:
         while (a <= x and step > 0) or (a >= x and step < 0):
             pdf_norm = (1 / (σ * math.sqrt(2 * math.pi))) * (math.e ** (-0.5 * ((a - μ) / σ) ** 2))
             cdf_norm += pdf_norm * abs(step)
-            print(f" Occurences (a): {a:>12.4f} | PDF: {pdf_norm:>12.6g} | Running CDF: {cdf_norm:>12.6g}")
+            print(f" Occurences (a): {a:>12.4g} | PDF: {pdf_norm:>12.6g} | Running CDF: {cdf_norm:>12.6g}")
             a += step
             
     else:
@@ -87,3 +87,14 @@ elif choice == 4:
     p = float(input("Choose a value for probability: "))
     x = float(input("no. of successes / occurences: "))  
     geom_cdf = 0
+    k = 1
+    if pdfcdf == True:
+        while k<= x:
+            geom_pdf = p*(1-p)**(k-1)
+            geom_cdf += geom_pdf
+            print(f"Successes: ({k}) | PDF: {geom_pdf:>12.6g} | Running CDF: {geom_cdf:>12.6g}")
+            k+=1
+        print(f"Final CDF is:  {geom_cdf:>24.22g}")
+    else:
+            geom_pdf = p*(1-p)**(x-1)
+            print(f"PDF at point {x} is {geom_pdf:>17.15g}")
