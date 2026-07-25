@@ -1,7 +1,6 @@
 import math
 from math import factorial
 import sys
-
 #similar to the binomial distribution, will write code for poisson, geometric and negative binomial
 #Should condense all probability distributions into this one
 #Normal: mean(μ) and standard deviation(σ)
@@ -20,6 +19,7 @@ choice = int(input("Choose a dist: "))
 pdfcdf = bool(input("CDF or PDF (y/n): ").strip().lower().startswith('y'))
 
 #Very large if statement for processing the distributions, adding plots will be in the future (maybe)
+#Binomial
 if choice == 1:
     n = int(input("Number of trials: "))
     p = float(input("Probability of success (0-1): "))
@@ -28,7 +28,7 @@ if choice == 1:
     k=0
     #PDF is the probability of success at one point, CDF is the total successes from 0 to some point x.
 
-    #Logic part to check whether the distribution function is actually posiible with user input
+    #Logic part to check whether the distribution function is actually possible with user input
     if x>n or (p>1 or p<0) :
         sys.exit("Invalid: successes cannot be greater than the number of trials and probability of successes must be in the range 0 to 1.")
     #Looping to find the total and the initial PDF from user input, binomial is discrete so goes up by 1    
@@ -39,20 +39,27 @@ if choice == 1:
         k += 1
     print(f"\nFinal Cumulative Distribution Function (CDF): {bino_cdf:.16f}")
     print(f"\nFinal Probability Density Function (PDF): {(factorial(n) / (factorial(x) * factorial(n - x))) * (p**x) * ((1 - p)**(n - x)):.16f}")
+#Normal
 elif choice == 2:
-    σ = float(input("Choose a value for standard deviation: "))
     μ = float(input("Choose a value for mean: "))     
+    σ = float(input("Choose a value for standard deviation: "))
     x = float(input("no. of successes / occurences: "))
     cdf_norm = 0
+    count = 0
     if pdfcdf == True:
-        a = float(input("Lower limits"))
+        a = float(input("Lower limit: "))
         steps = 1000
         if x == a:
-            step = 0.0
+            sys.exit("You should have chosen PDF then.")
         else:
             step = (x - a) / steps
         while (a <= x and step > 0) or (a >= x and step < 0):
             pdf_norm = (1 / (σ * math.sqrt(2 * math.pi))) * (math.e ** (-0.5 * ((a - μ) / σ) ** 2))
             cdf_norm += pdf_norm * abs(step)
-            print(f"Occurences (a): {a:.6f} | PDF: {pdf_norm:.20f} | Running CDF: {cdf_norm:.20f}")
+            print(f"{count} Occurences (a): {a:>12.4f} | PDF: {pdf_norm:>12.6g} | Running CDF: {cdf_norm:>12.6g}")
             a += step
+            count +=1
+            
+    else:
+            pdf_norm = (1 / (σ * math.sqrt(2 * math.pi))) * (math.e ** (-0.5 * ((x - μ) / σ) ** 2))
+            print(f"A value of {x} in this distribution has a PDF of {pdf_norm:>18.15f}")
