@@ -2,6 +2,9 @@
  Statistics and mathematical models in python to use for complex projects at some point
 Currently building python projects for data visualisation. I aim to update this repo with new projects every 2-3 days. 
 
+##
+Usability1 is for projects of little real-life usage
+Usability2 is projects that could be used somewhere
 ## Completed projects:
 ### central_limit : 
 Generates k number of random samples and observes as k gets large, results are distributed normally.
