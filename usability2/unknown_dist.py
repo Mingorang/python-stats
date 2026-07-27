@@ -3,9 +3,10 @@ from math import factorial
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.widgets
 y=[]
 
-
+#Delete when done, fixing graph to show CDF instead of PDF
 def mean_of_distributions(
     binomial_mean=None,
     normal_mean=None,
@@ -74,9 +75,9 @@ elif choice == 2:
     discrete_check = False
     μ = float(input("Choose a value for mean: "))     
     σ = float(input("Choose a value for standard deviation: "))
-    x = float(input("no. of successes / occurences: "))
+    x = int(float(input("no. of successes / occurences: ")))
     mean_value = mean_of_distributions(normal_mean=μ)
-    X = np.linspace(mean_value - (5*σ), mean_value + (5*σ), x)
+    X = np.linspace(mean_value - (5*σ), mean_value + (5*σ), 1001)
     cdf_norm = 0
     if pdfcdf == True:
         a = float(input("Lower limit: "))
@@ -89,11 +90,11 @@ elif choice == 2:
             pdf_norm = (1 / (σ * math.sqrt(2 * math.pi))) * (math.e ** (-0.5 * ((a - μ) / σ) ** 2))
             cdf_norm += pdf_norm * abs(step)
             print(f" Occurences (a): {a:>12.4g} | PDF: {pdf_norm:>12.6g} | Running CDF: {cdf_norm:>12.6g}")
+            y.append(pdf_norm)
             a += step
-            
     else:
-            pdf_norm = (1 / (σ * math.sqrt(2 * math.pi))) * (math.e ** (-0.5 * ((x - μ) / σ) ** 2))
-            print(f"A value of {x} in this distribution has a PDF of {pdf_norm:>18.15f}")
+        pdf_norm = (1 / (σ * math.sqrt(2 * math.pi))) * (math.e ** (-0.5 * ((x - μ) / σ) ** 2))
+        print(f"A value of {x} in this distribution has a PDF of {pdf_norm:>18.15f}")
 #Poisson - discrete
 elif choice == 3:
     plt.yscale('log')
@@ -101,7 +102,7 @@ elif choice == 3:
     λ = int(input("Value for poisson paramter: "))
     x = int(input("no. of successes / occurences: "))
     mean_value = mean_of_distributions(poisson_mean=λ)
-    X = np.linspace(0, x, x)
+    X = np.linspace(0, x, (x+1))
     pois_cdf = 0
     k=0
     if pdfcdf == True:
@@ -110,6 +111,7 @@ elif choice == 3:
             pois_cdf += pois_pdf
             print(f"Successes (k): {k:>4.2g} | PDF: {pois_pdf:>12.6g} | Running CDF: {pois_cdf:12.6g}")
             k += 1
+            y.append(pois_pdf)
         print(f"\nFinal Cumulative Distribution Function (CDF): {pois_cdf:16.15g}")
     else:
         pois_pdf = ((math.e)**(-1*λ))*(λ**x)*(1/(factorial(x)))
@@ -118,9 +120,9 @@ elif choice == 3:
 elif choice == 4:
     plt.yscale('log')
     p = float(input("Choose a value for probability: "))
-    x = float(input("no. of successes / occurences: "))  
+    x = int(input("no. of successes / occurences: "))  
     mean_value = mean_of_distributions(geometric_mean=1 / p)
-    X = np.linspace(0, x, x)
+    X = np.linspace(1, x, (x-1))
     if (p<0) or (p>1):
         sys.exit("Error as probability cant be outside of 0 and 1.")
     else:
@@ -167,10 +169,18 @@ elif choice == 5:
     else:
             negbi_pdf =  (factorial(x-1)/(factorial(r-1)*factorial(x-r)))*(p**r)*(1-p)**(x-r)
             print(f"PDF at point {x} is {negbi_pdf:>17.15g}")
-#np.random.normal(0, 0.1, len(X))  # Example data with noise, might use for stochastic modelling of stock options(not now)
-plt.plot(X, y, color="blue", linewidth=0.2)
-plt.title("Distribution plot")
-plt.xlabel("x")
-plt.ylabel("f(x)")
-plt.grid(True)
-plt.show()
+
+
+if pdfcdf == True:
+    plt.plot(X, y, color="blue", linewidth=0.2)
+    #fig,ax = plt.subplots(figsize=(20, 10))
+    #ax.set_snap(True)
+    #cursor = matplotlib.widgets.Cursor(ax, useblit=True, horizOn=True, vertOn=True, color="lightgreen")
+    plt.title("Distribution plot")
+    plt.xlabel("x")
+    plt.ylabel("f(x)")
+    plt.grid(True)
+    plt.show()
+else:
+	pass
+	
