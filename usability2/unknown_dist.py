@@ -1,6 +1,30 @@
 import math
 from math import factorial
 import sys
+import numpy as np
+import matplotlib.pyplot as plt
+y=[]
+
+
+def mean_of_distributions(
+    binomial_mean=None,
+    normal_mean=None,
+    poisson_mean=None,
+    geometric_mean=None,
+    neg_bin_mean=None,
+):
+    """Return the average of the available distribution means."""
+    values = [
+        binomial_mean,
+        normal_mean,
+        poisson_mean,
+        geometric_mean,
+        neg_bin_mean,
+    ]
+    valid_values = [value for value in values if value is not None]
+    return sum(valid_values) / len(valid_values) if valid_values else 0
+
+
 #similar to the binomial distribution, will write code for poisson, geometric and negative binomial
 #Should condense all probability distributions into this one
 
@@ -20,15 +44,17 @@ choice = int(input("Choose a dist: "))
 pdfcdf = bool(input("CDF or PDF (y/n): ").strip().lower().startswith('y'))
 #Very large if statement for processing the distributions, adding plots will be in the future (maybe)
 
-
 #Binomial - discrete
 if choice == 1:
     discrete_check = True
     n = int(input("Number of trials: "))
     p = float(input("Probability of success (0-1): "))
     x = int(input("How many successes happened: "))
+    mean_value = mean_of_distributions(binomial_mean=n * p)
+    X = np.linspace(mean_value - 5, mean_value + 5, x)
     bino_cdf=0
     k=0
+
     #PDF is the probability of success at one point, CDF is the total successes from 0 to some point x.
 
     #Logic part to check whether the distribution function is actually possible with user input
@@ -48,6 +74,8 @@ elif choice == 2:
     μ = float(input("Choose a value for mean: "))     
     σ = float(input("Choose a value for standard deviation: "))
     x = float(input("no. of successes / occurences: "))
+    mean_value = mean_of_distributions(normal_mean=μ)
+    X = np.linspace(mean_value - (5*σ), mean_value + (5*σ), x)
     cdf_norm = 0
     if pdfcdf == True:
         a = float(input("Lower limit: "))
@@ -70,6 +98,8 @@ elif choice == 3:
     #Maybe use the gamma function for calculating factorials with decimals, but i should learn how to write functions soon
     λ = int(input("Value for poisson paramter: "))
     x = int(input("no. of successes / occurences: "))
+    mean_value = mean_of_distributions(poisson_mean=λ)
+    X = np.linspace(mean_value - 5, mean_value + 5, x)
     pois_cdf = 0
     k=0
     if pdfcdf == True:
@@ -82,12 +112,12 @@ elif choice == 3:
     else:
         pois_pdf = ((math.e)**(-1*λ))*(λ**x)*(1/(factorial(x)))
         print(f"X : {x} | PDF : {pois_pdf:10.9g}")
-
-
-#Geometric
+#Geometric - discrete
 elif choice == 4:
     p = float(input("Choose a value for probability: "))
     x = float(input("no. of successes / occurences: "))  
+    mean_value = mean_of_distributions(geometric_mean=1 / p)
+    X = np.linspace(mean_value - 5, mean_value + 5, x)
     if (p<0) or (p>1):
         sys.exit("Error as probability cant be outside of 0 and 1.")
     else:
@@ -99,17 +129,19 @@ elif choice == 4:
             geom_pdf = p*(1-p)**(k-1)
             geom_cdf += geom_pdf
             print(f"Successes: ({k}) | PDF: {geom_pdf:>12.6g} | Running CDF: {geom_cdf:>12.6g}")
+            y.append(geom_pdf)
             k+=1
-        print(f"Final CDF is:  {geom_cdf:>24.22g}")
+        print(f"Final CDF is:  {geom_cdf:>17.11g}")
     else:
             geom_pdf = p*(1-p)**(x-1)
             print(f"PDF at point {x} is {geom_pdf:>17.15g}")
-
 #Negative Binomial
 elif choice == 5:
     p = float(input("Choose a value for probability: "))
     r = int(input("Testing up until the rth success: "))
     x = int(input("no. of successes / occurences: "))  
+    mean_value = mean_of_distributions(neg_bin_mean=r / p)
+    X = np.linspace(mean_value - 5, mean_value + 5, x)
     negbi_cdf = 0
     k = 1
     if pdfcdf == True:
@@ -122,5 +154,10 @@ elif choice == 5:
     else:
             negbi_pdf =  (factorial(x-1)/(factorial(r-1)*factorial(x-r)))*(p**r)*(1-p)**(x-r)
             print(f"PDF at point {x} is {negbi_pdf:>17.15g}")
-
-
+#np.random.normal(0, 0.1, len(X))
+plt.plot(X, y, color="blue", linewidth=0.2)
+plt.title("Distribution plot")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(True)
+plt.show()
