@@ -167,7 +167,7 @@ elif choice == 5:
     else:
             negbi_pdf =  (factorial(x-1)/(factorial(r-1)*factorial(x-r)))*(p**r)*(1-p)**(x-r)
             print(f"PDF at point {x} is {negbi_pdf:>17.15g}")
-#y=np.sin(X) + np.random.normal(0, 0.1, len(X))  # Example data with noise
+#np.random.normal(0, 0.1, len(X))  # Example data with noise, might use for stochastic modelling of stock options(not now)
 plt.plot(X, y, color="blue", linewidth=0.2)
 plt.title("Distribution plot")
 plt.xlabel("x")
