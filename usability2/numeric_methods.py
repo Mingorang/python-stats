@@ -77,16 +77,64 @@ def split_intervals(a, b, regions, dx):
     if current < b:
         intervals.append((current, b))
     return intervals
+#allows for writing accurate limits
+import ast
+import math
+import operator
+
+def string_to_float(text):
+    
+    cleaned = text.replace(" ", "").lower()
+    
+    
+    cleaned = cleaned.replace("pi", "*pi").replace("π", "*pi")
+    if cleaned.startswith("*"):
+        cleaned = cleaned[1:]
+    cleaned = cleaned.replace("**pi", "*pi") # Fix double asterisks if user wrote "2*pi"
+    
+    allowed_operators = {
+        ast.Add: operator.add,
+        ast.Sub: operator.sub,
+        ast.Mult: operator.mul,
+        ast.Div: operator.truediv,
+        ast.USub: operator.neg
+    }
+    
+    tree = ast.parse(cleaned, mode='eval')
+    
+    def _eval(node):
+        if isinstance(node, ast.Expression):
+            return _eval(node.body)
+        elif isinstance(node, ast.Constant):
+            return float(node.value)
+        elif isinstance(node, ast.Name):
+            if node.id == "pi":
+                return math.pi
+            raise ValueError(f"Unsupported variable: {node.id}")
+        elif isinstance(node, ast.BinOp):
+            return allowed_operators[type(node.op)](_eval(node.left), _eval(node.right))
+        elif isinstance(node, ast.UnaryOp):
+            return allowed_operators[type(node.op)](_eval(node.operand))
+        else:
+            raise TypeError(f"Unsupported syntax: {type(node).__name__}")
+            
+    return _eval(tree)
+
+# Examples
+   
+
 #Actual integration calculator
 def main():
        #Initialising variables
         print("Approximating integrals with rectangles")    
         expr = input("Integral as a function of x: ")
-        a = float(input("lower limit: "))
-        b= float(input("upper limit: "))
+        a = string_to_float(input("lower limit: "))
+        print(a)
+        b= string_to_float(input("upper limit: "))
+        print(b)
         dx = float(abs(b-a)/1e4)
         #larger alpha consideres less points as divergent
-        alpha = float(input("measure for finding singularities: (85<=alpha<100)"))
+        alpha = float(input("measure for finding singularities: (85<=alpha<100): "))
         if alpha<85 or alpha>=100:
             sys.exit("You know this value isnt allowed.")
         #Riemann sum (Method of integration using rectangles)
