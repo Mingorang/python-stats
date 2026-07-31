@@ -1,5 +1,6 @@
 import random as rand
 import numpy as np
+import matplotlib.pyplot as plt
 rangel = int(input("size of max value (greater than 100): "))
 if rangel <= 100:
     raise ValueError("Bad range")
@@ -13,25 +14,26 @@ def data_randomiser(n):
     return [rand.randint(0, rangel) for _ in range(n)]
 
 def bootstrap(data, n):
-    # Draw n bootstrap samples with replacement from data
     if not data:
         raise ValueError("Data cannot be empty")
 
-    return np.random.choice(data, size=n, replace=True).tolist()
+    return np.random.choice(data, size=n, replace=True)
 
 if __name__ == "__main__":
     data = data_randomiser(10)
     print(data)
 
-    population_size = int(3e7)
+    population_size = int(1e8)
     bootstrapped_data = bootstrap(data, population_size)
     print(f"There were {len(bootstrapped_data)} bootstrapped samples generated!")
     tests = int(input("number of tests: "))
-    actual_mean = (sum(bootstrapped_data) / len(bootstrapped_data))
+    actual_mean = bootstrapped_data.mean()
     print(f"Actual mean: {actual_mean:<12.4f}")
     loop=0
-    t_f = rand.randint(0,1)
+    sample_means = []  # ai changed layout to avoid OOM-kill since this file was made with limited processing power and population size is large
+    #Data in the following while loop is very randomised
     while loop < tests:
+        t_f = rand.randint(0,1)
         x = rand.randint(30,len(bootstrapped_data)-30)
         if t_f == 0:
             bootstrapped_data[x:x+45]
@@ -41,5 +43,25 @@ if __name__ == "__main__":
             bootstrapped_data[x-45:x]
             sample_mean = (sum(bootstrapped_data[x-45:x]) / 45)
             print(f"Sample mean: {sample_mean:<12.4f}")
+        sample_means.append(sample_mean)  # NEW
         loop+=1
-#We use the sample_mean to plot points, a histogram showing 
+
+    # We use the sample_mean to plot points, a histogram showing the
+    # bootstrapped population across [0, rangel], with every sample_mean
+    # drawn as a thin vertical line on top of it.
+    plt.figure(figsize=(10, 6))
+    plt.hist(bootstrapped_data, bins=np.arange(0, rangel + 2) - 0.5,
+             color="steelblue", edgecolor="none")
+    for sm in sample_means:
+        plt.axvline(sm, color="crimson", linewidth=0.5)
+    plt.axvline(actual_mean, color="black", linewidth=1.5,
+                label=f"actual mean = {actual_mean:.2f}")
+    plt.xlim(0, rangel)
+    plt.title(f"Bootstrapped population (n={population_size:,}) "
+              f"with {tests} sample means")
+    plt.xlabel("value")
+    plt.ylabel("frequency")
+    plt.legend()
+    plt.tight_layout()
+    plt.draw()
+    plt.savefig("my_plot.png")
