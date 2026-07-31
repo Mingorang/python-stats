@@ -1,20 +1,36 @@
 import random as rand
 import numpy as np
-import sys
+
+rangel = int(input("size of max value (greater than 100): "))
+if rangel < 100:
+    raise ValueError("Bad range")
+elif type(rangel) != int:
+    raise ValueError("Bad input type")
 def data_randomiser(n):
-    #Generates 'n' random numbers between 0 and 10000
-    range = int(input("size of max value: "))
-    if range < 1:
-        sys.exit("Bad range")
+    # Generates n random numbers between 0 and rangel
+    if rangel < 1:
+        raise ValueError("Bad range")
 
-    data = []
-    for i in range(n):
-        data.append(rand.randint(0, range))
-    return data
-print(data_randomiser(10))
+    return [rand.randint(0, rangel) for _ in range(n)]
 
-k=3000
+def bootstrap(data, n):
+    # Draw n bootstrap samples with replacement from data
+    if not data:
+        raise ValueError("Data cannot be empty")
 
-def bootsrap(data, n):
-    sample_range = round(range/k)
-    
+    return np.random.choice(data, size=n, replace=True).tolist()
+
+if __name__ == "__main__":
+    data = data_randomiser(10)
+    print(data)
+
+    k = 30
+    bootstrapped_data = bootstrap(data, k)
+    print(bootstrapped_data)
+    tests = int(input("number of tests: "))
+    actual_mean = (sum(bootstrapped_data) / len(bootstrapped_data))
+    print(actual_mean)
+    a=0
+    while a < tests:
+        print(bootstrapped_data[rand.randint(0, len(bootstrapped_data)-5):5])
+        a+=1
