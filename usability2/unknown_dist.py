@@ -52,7 +52,7 @@ elif choice == 2:
     cdf_norm = 0
     
     if pdfcdf == True:
-        a = float(input("Lower limit: "))
+        a = float(input("Lower/Upper limit: "))
         steps = 1000
         if x == a:
             sys.exit("You should have chosen PDF then.")
