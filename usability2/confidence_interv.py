@@ -1,8 +1,7 @@
 import random as rand
 import numpy as np
-
 rangel = int(input("size of max value (greater than 100): "))
-if rangel < 100:
+if rangel <= 100:
     raise ValueError("Bad range")
 elif type(rangel) != int:
     raise ValueError("Bad input type")
@@ -24,13 +23,23 @@ if __name__ == "__main__":
     data = data_randomiser(10)
     print(data)
 
-    k = 30
-    bootstrapped_data = bootstrap(data, k)
-    print(bootstrapped_data)
+    population_size = int(3e7)
+    bootstrapped_data = bootstrap(data, population_size)
+    print(f"There were {len(bootstrapped_data)} bootstrapped samples generated!")
     tests = int(input("number of tests: "))
     actual_mean = (sum(bootstrapped_data) / len(bootstrapped_data))
-    print(actual_mean)
-    a=0
-    while a < tests:
-        print(bootstrapped_data[rand.randint(0, len(bootstrapped_data)-5):5])
-        a+=1
+    print(f"Actual mean: {actual_mean:<12.4f}")
+    loop=0
+    t_f = rand.randint(0,1)
+    while loop < tests:
+        x = rand.randint(30,len(bootstrapped_data)-30)
+        if t_f == 0:
+            bootstrapped_data[x:x+45]
+            sample_mean = (sum(bootstrapped_data[x:x+45]) / 45)
+            print(f"Sample mean: {sample_mean:<12.4f}") 
+        elif t_f == 1:
+            bootstrapped_data[x-45:x]
+            sample_mean = (sum(bootstrapped_data[x-45:x]) / 45)
+            print(f"Sample mean: {sample_mean:<12.4f}")
+        loop+=1
+#We use the sample_mean to plot points, a histogram showing 
