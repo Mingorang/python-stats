@@ -1,2 +1,13 @@
-#From a youtube video, assume price of a stock is n, n ranges from 85 to 115, from the random generation we use a normal distribution about n and pick some distance away from n to be the price.
-#This updates 50 tines per second on a real time graph and shows the high,low,open and high as a 'candle'
+import random as rand
+import time
+import pandas as pd
+import mplfinance as mpf
+import matplotlib
+
+#From a youtube video, assume price of a stock is n, n can range from 85 to 115, we then use another randomised factor to simulate price movement of a stock over time
+
+for i in range(50):
+    n = 100+(rand.randint(-15,15))
+    print(n)
+    n+=1
+    time.sleep(1/50)
