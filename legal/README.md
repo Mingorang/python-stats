@@ -3,14 +3,14 @@
 Currently building python projects for data visualisation. I aim to update this repo with new projects every 2-3 days. 
 
 ##
-Usability1 is for projects of little real-life usage
-Usability2 is projects that could be used somewhere
+'Introduction' is for projects of little real-life usage: <br>
+maths&stats' are projects that could be useful in the real-world
 ## Completed projects:
 ### central_limit : 
 Generates k number of random samples and observes as k gets large, results are distributed normally.
 
 ### matrices :
-Matrix multiplication (2x2), (3x3), (4x4), template is used for solving systems of linear equations.
+Matrix multiplication (2X2), (3X3), (4X4), template is used for solving systems of linear equations.
 
 ### numeric_methods :
 Numerical integration,takes a given function of x, and integrates over a user given interval using a riemann sum (rectangles), Simpson's rule (quadratics), and the quad() function from a python module, I have also added functions to approximate over singularities by taking f(x) over the defined interval and placing them into percentiles, and "skipping" any divergent points, such as $\` f(x) = \frac{1}{x-1}   \`$ when x=1.
