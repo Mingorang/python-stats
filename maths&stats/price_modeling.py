@@ -6,15 +6,20 @@ matplotlib.use("Agg")
 import mplfinance as mpf
 import os
 
+#Very cool, should learn R for data analysis to do something with this data
+    #Either build an AI bot that has access to the .csv file for the precise numerical data of OHLC
+        #and the .png for visual needs such as ratio of bullish/bearish candles in a timeframe and other measures to make an index of market conditions.
+    #
+
 # Simulate OHLC stock data for a candle chart like the example image.
 master_dir = os.path.dirname(os.path.abspath(__file__))
-folder_name = os.path.join(master_dir, "my_data_folder")
+folder_name = os.path.join(master_dir, "processor")
 os.makedirs(folder_name, exist_ok=True)
 filename = os.path.join(folder_name, "generated_data.csv")
 chart_file = os.path.join(folder_name, "stock_chart.png")
 
-rand.seed(42)
-start_day = pd.Timestamp("2024-11-04")
+rand.seed(rand.randint(-1000000,1000000))
+start_day = pd.Timestamp("2026-09-14")
 all_timestamps = []
 for offset in range(5):
     day = start_day + pd.Timedelta(days=offset)
