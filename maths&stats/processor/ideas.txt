@@ -1,0 +1,3 @@
+Ideas for how processor handles data:
+
+Takes the High and Low of each candle, creates a new x-axis (no new y-axis)
