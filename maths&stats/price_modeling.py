@@ -7,9 +7,12 @@ import mplfinance as mpf
 import os
 
 #Very cool, should learn R for data analysis to do something with this data
-    #Either build an AI bot that has access to the .csv file for the precise numerical data of OHLC
-        #and the .png for visual needs such as ratio of bullish/bearish candles in a timeframe and other measures to make an index of market conditions.
-    #
+
+#Either build an AI bot that has access to the .csv file for the precise numerical data of OHLC
+    #and the .png for visual needs such as ratio of bullish/bearish candles in a timeframe and other measures to make an index of market conditions.
+#Add a for loop and a much larger csv file so the AI bot/script has access to data over a larger timeframe
+#If necessary change conditions as it is currently random and unaffected by market manipulation of large firms.
+
 
 # Simulate OHLC stock data for a candle chart like the example image.
 master_dir = os.path.dirname(os.path.abspath(__file__))
